@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Trend;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class TrendSeeder extends Seeder
 {
@@ -14,24 +15,30 @@ class TrendSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Kosongkan tabel trends (Gunakan truncate untuk PostgreSQL)
+        // 1. Pastikan tabel trends ada sebelum melakukan operasi
+        if (!Schema::hasTable('trends')) {
+            $this->command->error("Tabel 'trends' tidak ditemukan. Pastikan migrasi sudah dijalankan.");
+            return;
+        }
+
+        // 2. Kosongkan tabel trends untuk menghindari data ganda (Truncate aman untuk PostgreSQL)
         Trend::truncate();
 
-        // 2. Path ke file JSON hasil scraping
+        // 3. Path ke file JSON hasil scraping
         $jsonPath = storage_path('app/trends.json');
 
         if (File::exists($jsonPath)) {
             $jsonContent = File::get($jsonPath);
             $trendsData = json_decode($jsonContent, true);
 
-            if ($trendsData) {
-                // Konfigurasi Keyword Mapping untuk Kategorisasi
+            if (!empty($trendsData)) {
+                // Konfigurasi Keyword Mapping untuk Kategorisasi Otomatis yang lebih spesifik
                 $mapping = [
-                    'Teknologi'  => ['ai', 'tech', 'iphone', 'apple', 'samsung', 'gadget', 'crypto', 'bitcoin', 'software', 'chatgpt', 'deepseek', 'coding', 'digital', 'robot', 'ps5', 'windows', 'ios', 'android'],
-                    'Hiburan'    => ['taylor', 'concert', 'bts', 'movie', 'film', 'artis', 'kpop', 'nct', 'netflix', 'konser', 'musik', 'album', 'trailer', 'seleb', 'drama', 'bioskop', 'vlog', 'youtube', 'tiktok'],
-                    'Olahraga'   => ['bola', 'liga', 'match', 'fc', 'united', 'madrid', 'timnas', 'skor', 'badminton', 'motogp', 'pssi', 'champion', 'f1', 'atlet', 'juara', 'persib', 'persija', 'voley', 'basket'],
-                    'Politik'    => ['ikn', 'presiden', 'menteri', 'dpr', 'pemilu', 'pilkada', 'kpk', 'hukum', 'rakyat', 'politik', 'pemerintah', 'asn', 'negara', 'demokrasi', 'uud', 'sidang', 'partai', 'prajurit'],
-                    'Gaya Hidup' => ['diet', 'fashion', 'skincare', 'minimalis', 'kuliner', 'travel', 'wisata', 'kopi', 'masak', 'gaya', 'hidup', 'lifestyle', 'sehat', 'belanja', 'outfit', 'parfum'],
+                    'Teknologi'  => ['ai', 'tech', 'iphone', 'apple', 'samsung', 'gadget', 'crypto', 'bitcoin', 'software', 'chatgpt', 'deepseek', 'coding', 'digital', 'robot', 'chain'],
+                    'Hiburan'    => ['taylor', 'concert', 'bts', 'movie', 'film', 'artis', 'kpop', 'nct', 'netflix', 'konser', 'musik', 'album', 'trailer', 'seleb', 'drama', 'standup', 'komedi', 'bully'],
+                    'Olahraga'   => ['bola', 'liga', 'match', 'fc', 'united', 'madrid', 'timnas', 'skor', 'badminton', 'motogp', 'pssi', 'champion', 'f1', 'atlet', 'juara', 'persib', 'persija'],
+                    'Politik'    => ['ikn', 'presiden', 'menteri', 'dpr', 'dprd', 'pemilu', 'pilkada', 'kpk', 'hukum', 'rakyat', 'politik', 'pemerintah', 'asn', 'negara', 'demokrasi', 'kabinet', 'prabowo', 'gibran', 'nusron'],
+                    'Gaya Hidup' => ['diet', 'fashion', 'skincare', 'minimalis', 'kuliner', 'travel', 'wisata', 'kopi', 'masak', 'lifestyle', 'sehat', 'belanja'],
                 ];
 
                 $this->command->info("Memproses " . count($trendsData) . " data tren ke PostgreSQL...");
@@ -39,35 +46,38 @@ class TrendSeeder extends Seeder
                 foreach ($trendsData as $item) {
                     $title = $item['name'] ?? 'Tanpa Judul';
                     
-                    // Logika Kategorisasi Otomatis
-                    $finalCategory = 'Umum';
+                    // Logika Kategorisasi: Gunakan domainContext dari JSON sebagai dasar, 
+                    // tapi coba cari kategori yang lebih spesifik jika domainContext adalah "Umum"
+                    $finalCategory = $item['domainContext'] ?? 'Umum';
                     $loweredTitle = strtolower($title);
 
-                    foreach ($mapping as $category => $keywords) {
-                        foreach ($keywords as $keyword) {
-                            if (str_contains($loweredTitle, $keyword)) {
-                                $finalCategory = $category;
-                                break 2;
+                    if ($finalCategory === 'Umum') {
+                        foreach ($mapping as $category => $keywords) {
+                            foreach ($keywords as $keyword) {
+                                if (str_contains($loweredTitle, $keyword)) {
+                                    $finalCategory = $category;
+                                    break 2;
+                                }
                             }
                         }
                     }
 
                     // Logika Dynamic Summary berdasarkan Kategori
                     $summaryTemplate = [
-                        'Teknologi'  => "Diskusi seputar inovasi $title sedang ramai diperbincangkan di komunitas teknologi dan digital.",
-                        'Hiburan'    => "Topik $title menjadi pusat perhatian para penggemar hiburan dan menjadi perbincangan hangat di budaya populer.",
-                        'Olahraga'   => "Update terbaru mengenai $title tengah menjadi sorotan utama bagi para pecinta olahraga di media sosial.",
-                        'Politik'    => "Dinamika terkait $title sedang memicu berbagai reaksi dan diskusi intensif mengenai isu publik dan kenegaraan.",
-                        'Gaya Hidup' => "Tren gaya hidup dan inspirasi harian mengenai $title sedang banyak dibagikan oleh pengguna hari ini.",
-                        'Umum'       => "Topik $title tengah viral dan menduduki daftar tren populer yang paling banyak dibicarakan di platform X."
+                        'Teknologi'  => "Diskusi seputar inovasi '$title' sedang ramai diperbincangkan di komunitas teknologi dan digital.",
+                        'Hiburan'    => "Topik '$title' menjadi pusat perhatian para penggemar hiburan dan menjadi perbincangan hangat di budaya populer.",
+                        'Olahraga'   => "Update terbaru mengenai '$title' tengah menjadi sorotan utama bagi para pecinta olahraga di media sosial.",
+                        'Politik'    => "Dinamika terkait '$title' sedang memicu berbagai reaksi dan diskusi intensif mengenai isu publik dan kenegaraan.",
+                        'Gaya Hidup' => "Tren gaya hidup dan inspirasi harian mengenai '$title' sedang banyak dibagikan oleh pengguna hari ini.",
+                        'Umum'       => "Topik '$title' tengah viral dan menduduki daftar tren populer yang paling banyak dibicarakan di platform X."
                     ];
 
                     $dynamicSummary = $summaryTemplate[$finalCategory] ?? $summaryTemplate['Umum'];
 
-                    // Penanganan jumlah postingan
-                    $postCount = $item['tweet_count'] ?? 'Jumlah tidak tersedia';
-                    if ($postCount == "N/A" || empty($postCount)) {
-                        $postCount = 'Jumlah tidak tersedia';
+                    // Penanganan jumlah postingan (Handle string kosong dari JSON)
+                    $postCount = $item['tweet_count'] ?? '';
+                    if (empty($postCount) || $postCount == "N/A") {
+                        $postCount = '';
                     }
 
                     // Buat data ke database
@@ -76,7 +86,7 @@ class TrendSeeder extends Seeder
                         'category'   => $finalCategory,
                         'post_count' => $postCount,
                         'summary'    => $dynamicSummary,
-                        // Kirim sebagai ARRAY (Karena model Trend menggunakan $casts array)
+                        // news_links otomatis di-cast ke JSON oleh model karena properti $casts sudah kita atur ke array
                         'news_links' => [
                             [
                                 'title' => 'Cari Berita di Google News', 
@@ -87,15 +97,16 @@ class TrendSeeder extends Seeder
                                 'url'   => 'https://x.com/search?q=' . urlencode($title)
                             ]
                         ],
-                        // Menggunakan waktu modifikasi file JSON agar akurat
                         'fetched_at' => Carbon::createFromTimestamp(File::lastModified($jsonPath))
                                         ->translatedFormat('d F Y, H:i') . ' WIB'
                     ]);
                 }
-                $this->command->info("🚀 Seeding Sukses!");
+                $this->command->info("🚀 Seeding Sukses! 50 data tren telah masuk ke PostgreSQL.");
+            } else {
+                $this->command->error("File JSON ditemukan tetapi tidak berisi data valid.");
             }
         } else {
-            $this->command->warn("File JSON tidak ditemukan di $jsonPath. Pastikan scraper.py berhasil dijalankan.");
+            $this->command->warn("File JSON tidak ditemukan di $jsonPath. Pastikan scraper.py berhasil dijalankan sebelum seeding.");
         }
     }
 }

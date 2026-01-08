@@ -1,5 +1,5 @@
 [phases.setup]
-# Menambahkan python3 dan pip ke dalam daftar paket yang diinstal oleh Railway
+# Menginstal PHP, Node.js, dan Python 3 berserta Pip dalam satu container
 nixPkgs = ['php82', 'nodejs', 'php82Packages.composer', 'python3', 'python311Packages.pip']
 
 [phases.install]
@@ -7,7 +7,7 @@ dependsOn = ['setup']
 cmds = [
     'composer install --no-dev --optimize-autoloader', 
     'npm install',
-    # Menginstal library yang dibutuhkan scraper Anda di server
+    # Menginstal library Python yang dibutuhkan oleh scraper.py
     'pip install requests beautifulsoup4'
 ]
 
@@ -20,6 +20,9 @@ cmds = [
 ]
 
 [start]
-# Perintah ini akan dijalankan saat aplikasi menyala. 
-# PASTIKAN "Start Command" di dashboard Railway dikosongkan agar bagian ini berfungsi.
-cmd = 'python3 scraper.py && php artisan config:clear && php artisan migrate:fresh --force --seed && apache2-foreground'
+# Urutan eksekusi saat container dijalankan:
+# 1. Menjalankan scraper untuk menghasilkan file trends.json
+# 2. Membersihkan cache konfigurasi agar Laravel membaca variabel DB PostgreSQL terbaru
+# 3. Menjalankan migrasi dan seeder secara paksa
+# 4. Menjalankan server (menggunakan apache2-foreground untuk environment produksi)
+cmd = 'python3 scraper.py && php artisan config:clear && php artisan migrate --force --seed && apache2-foreground'
