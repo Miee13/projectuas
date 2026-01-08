@@ -1,24 +1,26 @@
 [phases.setup]
-nixPkgs = ['php84', 'nodejs', 'php84Packages.composer', 'python3', 'python311Packages.pip']
+# Menambahkan python3 dan pip ke dalam daftar paket yang diinstal oleh Railway
+nixPkgs = ['php82', 'nodejs', 'php82Packages.composer', 'python3', 'python311Packages.pip']
 
 [phases.install]
 dependsOn = ['setup']
 cmds = [
     'composer install --no-dev --optimize-autoloader', 
     'npm install',
+    # Menginstal library yang dibutuhkan scraper Anda di server
     'pip install requests beautifulsoup4'
 ]
 
 [phases.build]
 dependsOn = ['install']
 cmds = [
-    'npm run build', 
-    'php artisan route:cache', 
+    'npm run build',
+    'php artisan route:cache',
     'php artisan view:cache'
 ]
 
 [start]
-# 1. Jalankan scraper untuk menghasilkan trends.json
-# 2. Jalankan migrasi dan seeder ke PostgreSQL
-# 3. Jalankan server
-cmd = 'python3 scraper.py && php artisan migrate --force --seed && apache2-foreground'
+# Perintah ini akan dijalankan saat aplikasi menyala. 
+# Jika Anda masih menggunakan "Start Command" di dashboard Railway, 
+# isi di dashboard akan menimpa (override) bagian ini.
+cmd = 'python3 scraper.py && php artisan config:clear && php artisan migrate:fresh --force --seed && apache2-foreground'
