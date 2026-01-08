@@ -61,7 +61,7 @@ class TrendSeeder extends Seeder
                         'windows', 'ios', 'android', 'aplikasi', 'startup', 'fintech', 'internet',
                         'cyber', 'data', 'server', 'bug', 'glitch', 'update', 'rilis', 'fitur',
                         'hack', 'scam', 'device', 'laptop', 'pc', 'komputer', 'telkomsel', 'indosat',
-                        'xl', 'jaringan', 'sinyal', 'wifi', 'machine learning', 'blockchain'
+                        'xl', 'jaringan', 'sinyal', 'wifi', 'machine learning', 'blockchain', 'lg'
                     ],
                     'Hiburan'    => [
                         'taylor', 'concert', 'bts', 'movie', 'film', 'artis', 'kpop', 'nct', 
@@ -69,14 +69,15 @@ class TrendSeeder extends Seeder
                         'bioskop', 'vlog', 'youtube', 'tiktok', 'idol', 'selebgram', 'viral',
                         'trending', 'video', 'stream', 'lagu', 'penyanyi', 'aktor', 'aktris',
                         'gosip', 'awards', 'piala', 'festival', 'show', 'tv', 'series', 
-                        'sinetron', 'drakor', 'anime', 'manga', 'standup', 'komedi', 'lucu'
+                        'sinetron', 'drakor', 'anime', 'manga', 'standup', 'komedi', 'lucu', 'taeyong', 'x-men'
                     ],
                     'Olahraga'   => [
                         'bola', 'liga', 'match', 'fc', 'united', 'madrid', 'timnas', 'skor', 
                         'badminton', 'motogp', 'pssi', 'champion', 'f1', 'atlet', 'juara', 
                         'persib', 'persija', 'voley', 'basket', 'gol', 'sport', 'olimpiade',
                         'sea games', 'asian games', 'turnamen', 'kompetisi', 'klasemen',
-                        'pelatih', 'coach', 'stadion', 'supporter', 'bulutangkis', 'lakers', 'nba'
+                        'pelatih', 'coach', 'stadion', 'supporter', 'bulutangkis', 'lakers', 'nba', 'amorim', 
+                        'mu', 'madrid', 'barcelona'
                     ],
                     'Politik'    => [
                         'ikn', 'presiden', 'menteri', 'dpr', 'dprd', 'pemilu', 'pilkada', 'kpk', 
@@ -85,14 +86,15 @@ class TrendSeeder extends Seeder
                         'capres', 'cawapres', 'koalisi', 'oposisi', 'kebijakan', 'uu', 'bawaslu',
                         'kpu', 'korupsi', 'hakim', 'mahkamah', 'konstitusi', 'bupati', 'gubernur',
                         'walikota', 'diplomasi', 'pbb', 'demo', 'unjuk rasa', 'ormas', 'sawit', 'prabowo',
-                        'gibran', 'jokowi', 'nadiem'
+                        'gibran', 'jokowi', 'nadiem', 'trump', 'palestine', 'israel', 'perang', 'venezuela',
+                        'amerika', 'buzzer', 'bapak', 'merah putih', 'pembinaan', 'pertahanan'
                     ],
                     'Gaya Hidup' => [
                         'diet', 'fashion', 'skincare', 'minimalis', 'kuliner', 'travel', 'wisata', 
                         'kopi', 'masak', 'gaya', 'hidup', 'lifestyle', 'sehat', 'belanja', 'outfit', 
                         'parfum', 'diskon', 'promo', 'liburan', 'hotel', 'resep', 'makanan', 
                         'minuman', 'restoran', 'cafe', 'healing', 'mental health', 'buku', 'novel',
-                        'unik', 'cantik', 'ganteng', 'ootd', 'aesthetic'
+                        'unik', 'cantik', 'ganteng', 'ootd', 'aesthetic', 'life', 'land'
                     ],
                 ];
 
