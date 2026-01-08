@@ -21,6 +21,5 @@ cmds = [
 
 [start]
 # Perintah ini akan dijalankan saat aplikasi menyala. 
-# Jika Anda masih menggunakan "Start Command" di dashboard Railway, 
-# isi di dashboard akan menimpa (override) bagian ini.
+# PASTIKAN "Start Command" di dashboard Railway dikosongkan agar bagian ini berfungsi.
 cmd = 'python3 scraper.py && php artisan config:clear && php artisan migrate:fresh --force --seed && apache2-foreground'

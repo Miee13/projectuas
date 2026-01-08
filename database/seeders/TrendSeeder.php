@@ -14,7 +14,7 @@ class TrendSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Kosongkan tabel trends
+        // 1. Kosongkan tabel trends (Gunakan truncate untuk PostgreSQL)
         Trend::truncate();
 
         // 2. Path ke file JSON hasil scraping
@@ -25,7 +25,7 @@ class TrendSeeder extends Seeder
             $trendsData = json_decode($jsonContent, true);
 
             if ($trendsData) {
-                // Konfigurasi Keyword Mapping
+                // Konfigurasi Keyword Mapping untuk Kategorisasi
                 $mapping = [
                     'Teknologi'  => ['ai', 'tech', 'iphone', 'apple', 'samsung', 'gadget', 'crypto', 'bitcoin', 'software', 'chatgpt', 'deepseek', 'coding', 'digital', 'robot', 'ps5', 'windows', 'ios', 'android'],
                     'Hiburan'    => ['taylor', 'concert', 'bts', 'movie', 'film', 'artis', 'kpop', 'nct', 'netflix', 'konser', 'musik', 'album', 'trailer', 'seleb', 'drama', 'bioskop', 'vlog', 'youtube', 'tiktok'],
@@ -33,6 +33,8 @@ class TrendSeeder extends Seeder
                     'Politik'    => ['ikn', 'presiden', 'menteri', 'dpr', 'pemilu', 'pilkada', 'kpk', 'hukum', 'rakyat', 'politik', 'pemerintah', 'asn', 'negara', 'demokrasi', 'uud', 'sidang', 'partai', 'prajurit'],
                     'Gaya Hidup' => ['diet', 'fashion', 'skincare', 'minimalis', 'kuliner', 'travel', 'wisata', 'kopi', 'masak', 'gaya', 'hidup', 'lifestyle', 'sehat', 'belanja', 'outfit', 'parfum'],
                 ];
+
+                $this->command->info("Memproses " . count($trendsData) . " data tren ke PostgreSQL...");
 
                 foreach ($trendsData as $item) {
                     $title = $item['name'] ?? 'Tanpa Judul';
@@ -74,20 +76,26 @@ class TrendSeeder extends Seeder
                         'category'   => $finalCategory,
                         'post_count' => $postCount,
                         'summary'    => $dynamicSummary,
-                        'news_links' => json_encode([
+                        // Kirim sebagai ARRAY (Karena model Trend menggunakan $casts array)
+                        'news_links' => [
                             [
                                 'title' => 'Cari Berita di Google News', 
-                                'url' => 'https://www.google.com/search?q=' . urlencode($title . ' news')
+                                'url'   => 'https://www.google.com/search?q=' . urlencode($title . ' news')
+                            ],
+                            [
+                                'title' => 'Lihat di Platform X', 
+                                'url'   => 'https://x.com/search?q=' . urlencode($title)
                             ]
-                        ]),
+                        ],
                         // Menggunakan waktu modifikasi file JSON agar akurat
                         'fetched_at' => Carbon::createFromTimestamp(File::lastModified($jsonPath))
                                         ->translatedFormat('d F Y, H:i') . ' WIB'
                     ]);
                 }
+                $this->command->info("🚀 Seeding Sukses!");
             }
         } else {
-            $this->command->warn("File JSON tidak ditemukan. Jalankan scraper.py terlebih dahulu.");
+            $this->command->warn("File JSON tidak ditemukan di $jsonPath. Pastikan scraper.py berhasil dijalankan.");
         }
     }
 }
