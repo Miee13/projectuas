@@ -1,17 +1,17 @@
 :root {
-    --primary-blue: #e3f2fd;
-    --primary-mint: #e8f5e9;
-    --text-charcoal: #37474f;
-    --accent-blue: #2196f3;
+    --primary-blue: #E3F2FD;
+    --primary-mint: #E8F5E9;
+    --text-charcoal: #37474F;
+    --accent-blue: #2196F3;
     --white-space: #ffffff;
 }
 
 body {
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: var(--text-charcoal);
     background-color: #fcfcfc;
-    overflow-x: hidden;
     padding-top: 70px;
+    overflow-x: hidden;
 }
 
 h1,
@@ -45,6 +45,17 @@ h3,
 .nav-link.active-nav {
     color: var(--accent-blue) !important;
     font-weight: 700;
+}
+
+/* Fix Mobile Menu Background */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-top: 10px;
+    }
 }
 
 /* Hero Section */
@@ -176,6 +187,22 @@ h3,
     border-radius: 30px;
     border: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Detail Modal Styles */
+.news-link {
+    text-decoration: none;
+    color: var(--text-charcoal);
+    display: block;
+    padding: 12px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.news-link:hover {
+    background: #e9ecef;
 }
 
 footer {
