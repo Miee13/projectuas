@@ -23,4 +23,4 @@ cmds = [
 # 2. Langsung membersihkan cache config.
 # 3. Menjalankan migrasi dan seeding (membaca file trends.json yang Anda upload).
 # 4. Menjalankan server.
-cmd = 'php artisan config:clear && php artisan migrate:fresh --force --seed && apache2-foreground'
+cmd = 'php artisan config:clear && php artisan migrate:fresh --force --seed && php artisan serve --host=0.0.0.0 --port=$PORT'
