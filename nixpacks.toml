@@ -1,14 +1,12 @@
 [phases.setup]
-# Menginstal PHP, Node.js, dan Python 3 berserta Pip dalam satu container
-nixPkgs = ['php84', 'nodejs', 'php84Packages.composer', 'python3', 'python311Packages.pip']
+# HAPUS python3 dan pip. Kita hanya butuh PHP dan Node.js.
+nixPkgs = ['php82', 'nodejs', 'php82Packages.composer']
 
 [phases.install]
 dependsOn = ['setup']
 cmds = [
     'composer install --no-dev --optimize-autoloader', 
-    'npm install',
-    # Menginstal library Python yang dibutuhkan oleh scraper.py
-    'pip install requests beautifulsoup4'
+    'npm install'
 ]
 
 [phases.build]
@@ -20,9 +18,9 @@ cmds = [
 ]
 
 [start]
-# Urutan eksekusi saat container dijalankan:
-# 1. Menjalankan scraper untuk menghasilkan file trends.json
-# 2. Membersihkan cache konfigurasi agar Laravel membaca variabel DB PostgreSQL terbaru
-# 3. Menjalankan migrasi dan seeder secara paksa
-# 4. Menjalankan server (menggunakan apache2-foreground untuk environment produksi)
-cmd = 'python3 scraper.py && php artisan config:clear && php artisan migrate --force --seed && apache2-foreground'
+# Perintah start menjadi lebih sederhana:
+# 1. Tidak ada 'python3 scraper.py'.
+# 2. Langsung membersihkan cache config.
+# 3. Menjalankan migrasi dan seeding (membaca file trends.json yang Anda upload).
+# 4. Menjalankan server.
+cmd = 'php artisan config:clear && php artisan migrate:fresh --force --seed && apache2-foreground'

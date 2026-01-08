@@ -46,7 +46,7 @@ class TrendSeeder extends Seeder
                 'post_count' => $tweetCount,
                 'summary'    => "Topik '$title' sedang populer di kategori $category.",
                 'news_links' => [
-                    ['title' => 'Cek di X', 'url' => 'https://x.com/search?q=' . urlencode($title)]
+                    ['title' => 'Cek berita di Google', 'url' => 'https://www.google.com/search?q=' . urlencode($title)]
                 ],
                 'fetched_at' => date('d F Y, H:i') . ' WIB'
             ]);
