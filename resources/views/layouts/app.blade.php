@@ -69,7 +69,7 @@
     <footer class="text-center py-5 opacity-50">
         <div class="container">
             <hr class="mb-4">
-            <p>&copy; 2026 Platform Z. Minimalis, Cepat, Tanpa Akun.</p>
+            <p>&copy; 2026 Platform Z.</p>
         </div>
     </footer>
 

@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <p class="text-center text-muted mt-4 small">Menampilkan hingga 50 tren teratas yang diperbarui secara berkala.</p>
+            <p class="text-center text-muted mt-4 small">Menampilkan hingga 50 tren teratas.</p>
         </div>
     </div>
 </div>
