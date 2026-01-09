@@ -14,7 +14,6 @@
             <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
                 <div id="verticalTrendsList">
                     @forelse($trends as $index => $trend)
-                        <!-- Perbaikan: Menggunakan tanda kutip ganda dan mengirim objek model langsung -->
                         <div class="vertical-trend-item d-flex align-items-center" onclick='showDetail(@json($trend))'>
                             <div class="fw-bold text-muted me-4" style="width: 40px; font-size: 1.2rem; text-align: center;">
                                 {{ $index + 1 }}

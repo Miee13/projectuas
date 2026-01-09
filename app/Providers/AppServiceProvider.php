@@ -22,8 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         /**
          * Memaksa penggunaan HTTPS untuk semua aset (CSS/JS) dan link
-         * saat aplikasi berjalan di lingkungan produksi (Railway).
-         * Ini akan memperbaiki masalah CSS yang tidak muncul.
          */
         if (config('app.env') === 'production') {
             URL::forceScheme('https');

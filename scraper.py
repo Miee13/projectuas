@@ -43,7 +43,7 @@ def scrape_trends24():
 
         trends_list = []
 
-        # Pemetaan Kata Kunci (Keyword Mapping) untuk Kategorisasi Otomatis
+        # Pemetaan Kata Kunci (Keyword Mapping) untuk Kategorisasi
         keywords_map = {
             "Teknologi": ["ai", "iphone", "samsung", "chatgpt", "google", "crypto", "bitcoin", "tech", "gadget", "deepseek", "coding", "software", "chip", "robot"],
             "Hiburan": ["taylor", "bts", "konser", "film", "movie", "artis", "seleb", "netflix", "kpop", "drama", "album", "musik", "trailer", "streaming"],
@@ -68,7 +68,7 @@ def scrape_trends24():
             
             name = name_tag.text.strip()
             
-            # Mencari jumlah tweet (biasanya dalam span dengan class 'tweet-count')
+            # Mencari jumlah tweet (dalam span dengan class 'tweet-count')
             count_tag = item.find('span', class_='tweet-count')
             tweet_count = count_tag.text.strip() if count_tag else "N/A"
 
@@ -78,13 +78,14 @@ def scrape_trends24():
                 "tweet_count": tweet_count,
                 "domainContext": categorize(name),
                 "last_updated": "Baru saja"
+                "manual_summary": ""
             })
 
         if not trends_list:
             print("Tidak ada data tren yang berhasil diproses.")
             return
 
-        # Menentukan direktori penyimpanan otomatis untuk Laravel (storage/app/)
+        # Menentukan direktori penyimpanan otomatis (storage/app/)
         output_dir = os.path.join('storage', 'app')
         if not os.path.exists(output_dir):
             os.makedirs(output_dir, exist_ok=True)

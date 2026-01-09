@@ -11,7 +11,7 @@ class Trend extends Model
 
     /**
      * Menonaktifkan proteksi mass assignment.
-     * Ini sangat penting agar Seeder bisa memasukkan data ke database.
+     * agar Seeder bisa memasukkan data ke database.
      */
     protected $guarded = [];
 

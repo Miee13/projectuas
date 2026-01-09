@@ -45,14 +45,14 @@ class TrendSeeder extends Seeder
             $title = $item['name'] ?? 'Tanpa Judul';
             $tweetCount = !empty($item['tweet_count']) ? $item['tweet_count'] : (rand(10, 99) . "rb");
             
-            // --- LOGIKA KATEGORI (DIPERLUAS) ---
+            // LOGIKA KATEGORI
             $finalCategory = 'Umum';
             
-            // Cek apakah JSON punya kategori bawaan (selain Umum)
+            // Cek JSON punya kategori bawaan
             if (isset($item['domainContext']) && $item['domainContext'] !== 'Umum') {
                 $finalCategory = $item['domainContext'];
             } else {
-                // Jika Umum, cari berdasarkan Keyword Mapping yang diperluas
+                // cari berdasarkan Keyword Mapping yang diperluas
                 $loweredTitle = strtolower($title);
                 $mapping = [
                     'Teknologi'  => [
@@ -61,7 +61,8 @@ class TrendSeeder extends Seeder
                         'windows', 'ios', 'android', 'aplikasi', 'startup', 'fintech', 'internet',
                         'cyber', 'data', 'server', 'bug', 'glitch', 'update', 'rilis', 'fitur',
                         'hack', 'scam', 'device', 'laptop', 'pc', 'komputer', 'telkomsel', 'indosat',
-                        'xl', 'jaringan', 'sinyal', 'wifi', 'machine learning', 'blockchain', 'lg'
+                        'xl', 'jaringan', 'sinyal', 'wifi', 'machine learning', 'blockchain', 'lg', 'oppo',
+                        'xiaomi', 'vivo', 'poco'
                     ],
                     'Hiburan'    => [
                         'taylor', 'concert', 'bts', 'movie', 'film', 'artis', 'kpop', 'nct', 
@@ -69,7 +70,8 @@ class TrendSeeder extends Seeder
                         'bioskop', 'vlog', 'youtube', 'tiktok', 'idol', 'selebgram', 'viral',
                         'trending', 'video', 'stream', 'lagu', 'penyanyi', 'aktor', 'aktris',
                         'gosip', 'awards', 'piala', 'festival', 'show', 'tv', 'series', 
-                        'sinetron', 'drakor', 'anime', 'manga', 'standup', 'komedi', 'lucu', 'taeyong', 'x-men'
+                        'sinetron', 'drakor', 'anime', 'manga', 'standup', 'komedi', 'lucu', 'taeyong', 'x-men',
+                        'happy', 'jimin', 'actor', 'family', 'hbd', 'dj', 'mv'
                     ],
                     'Olahraga'   => [
                         'bola', 'liga', 'match', 'fc', 'united', 'madrid', 'timnas', 'skor', 
@@ -77,7 +79,7 @@ class TrendSeeder extends Seeder
                         'persib', 'persija', 'voley', 'basket', 'gol', 'sport', 'olimpiade',
                         'sea games', 'asian games', 'turnamen', 'kompetisi', 'klasemen',
                         'pelatih', 'coach', 'stadion', 'supporter', 'bulutangkis', 'lakers', 'nba', 'amorim', 
-                        'mu', 'madrid', 'barcelona'
+                        'madrid', 'barcelona', 'arsenal', 'mancherter united', 'arne', 'martinelli'
                     ],
                     'Politik'    => [
                         'ikn', 'presiden', 'menteri', 'dpr', 'dprd', 'pemilu', 'pilkada', 'kpk', 
@@ -87,14 +89,16 @@ class TrendSeeder extends Seeder
                         'kpu', 'korupsi', 'hakim', 'mahkamah', 'konstitusi', 'bupati', 'gubernur',
                         'walikota', 'diplomasi', 'pbb', 'demo', 'unjuk rasa', 'ormas', 'sawit', 'prabowo',
                         'gibran', 'jokowi', 'nadiem', 'trump', 'palestine', 'israel', 'perang', 'venezuela',
-                        'amerika', 'buzzer', 'bapak', 'merah putih', 'pembinaan', 'pertahanan'
+                        'amerika', 'buzzer', 'bapak', 'merah putih', 'pembinaan', 'pertahanan', 'sdm', 'indonesia',
+                        'negeri', 'tni', 'pendidikan', 'dinasti', 'bully'
                     ],
                     'Gaya Hidup' => [
                         'diet', 'fashion', 'skincare', 'minimalis', 'kuliner', 'travel', 'wisata', 
                         'kopi', 'masak', 'gaya', 'hidup', 'lifestyle', 'sehat', 'belanja', 'outfit', 
                         'parfum', 'diskon', 'promo', 'liburan', 'hotel', 'resep', 'makanan', 
                         'minuman', 'restoran', 'cafe', 'healing', 'mental health', 'buku', 'novel',
-                        'unik', 'cantik', 'ganteng', 'ootd', 'aesthetic', 'life', 'land'
+                        'unik', 'cantik', 'ganteng', 'ootd', 'aesthetic', 'life', 'land', 'trade', 'chanel',
+                        'kebaikan', 'pagi', 'honeymoon', 
                     ],
                 ];
 
@@ -109,8 +113,6 @@ class TrendSeeder extends Seeder
             }
 
             
-            // Cek apakah di JSON ada key 'manual_summary' yang diisi
-            // Jika tidak ada, gunakan placeholder statis
             $finalSummary = !empty($item['manual_summary']) 
                             ? $item['manual_summary'] 
                             : "Ringkasan belum tersedia.";
@@ -127,7 +129,7 @@ class TrendSeeder extends Seeder
                     ]
                 ],
                 'fetched_at' => Carbon::createFromTimestamp(File::lastModified($jsonPath))
-                                ->translatedFormat('d F Y, H:i') . ' WITA'
+                                ->translatedFormat('d F Y')
             ]);
         }
 

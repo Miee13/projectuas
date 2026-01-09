@@ -27,7 +27,6 @@
     <div class="row g-4">
         @forelse($trends as $trend)
             <div class="col-md-6 col-lg-4">
-                <!-- Perbaikan: Menggunakan tanda kutip ganda dan langsung mengirim objek model -->
                 <div class="card trend-card p-4" onclick='showDetail(@json($trend))'>
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <span class="badge bg-light text-dark rounded-pill px-3 py-2">{{ $trend->category }}</span>
