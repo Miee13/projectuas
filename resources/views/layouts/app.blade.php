@@ -29,7 +29,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="{{ route('trends.index') }}">Z</a>
+            <a class="navbar-brand fw-bold text-primary" href="{{ route('trends.index') }}">Trendz</a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -88,7 +88,7 @@
     <footer class="text-center py-5 opacity-50">
         <div class="container">
             <hr class="mb-4">
-            <p>&copy; 2026 Platform Z. Minimalis, Cepat, Tanpa Akun.</p>
+            <p>&copy; 2026 Platform Trendz.</p>
         </div>
     </footer>
 
