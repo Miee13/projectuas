@@ -27,11 +27,19 @@
     <div class="row g-4">
         @forelse($trends as $trend)
             <div class="col-md-6 col-lg-4">
-                <div class="card trend-card p-4" onclick='showDetail(@json($trend))'>
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <span class="badge bg-light text-dark rounded-pill px-3 py-2">{{ $trend->category }}</span>
+                <!-- Perbaikan: Menggunakan tanda kutip ganda pada onclick dan {{ $trend }} untuk passing data dengan aman -->
+                <div class="card trend-card p-4" onclick="showDetail({{ $trend }})">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <!-- Menampilkan Rank dan Kategori -->
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fw-bold text-primary me-1" style="font-size: 1.1rem;">#{{ $trend->rank }}</span>
+                            <span class="badge bg-light text-dark rounded-pill px-3 py-2">{{ $trend->category }}</span>
+                        </div>
+                        
+                        <!-- Jumlah Postingan -->
                         <span class="small text-muted">{{ $trend->post_count }}</span>
                     </div>
+                    
                     <h3 class="h5 mt-2 fw-bold">{{ $trend->title }}</h3>
                     <p class="text-muted small mb-0">{{ Str::limit($trend->summary, 85) }}</p>
                 </div>
