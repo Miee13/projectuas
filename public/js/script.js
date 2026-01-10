@@ -62,7 +62,7 @@ function showDetail(data) {
     const myModal = new bootstrap.Modal(document.getElementById('trendDetailModal'));
     myModal.show();
 
-    // Render ulang ikon Lucide (penting karena konten modal baru saja diubah)
+    // Render ulang ikon Lucide (karena konten modal baru saja diubah)
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }

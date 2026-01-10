@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z - Platform Social Listening</title>
+    <title>Trendz</title>
     
     <!-- Google Fonts: Montserrat -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Lucide Icons -->
@@ -54,7 +54,7 @@
     <!-- Konten Halaman -->
     @yield('content')
 
-    <!-- MODAL DETAIL (ID Elemen Wajib Sama dengan script.js) -->
+    <!-- MODAL DETAIL -->
     <div class="modal fade" id="trendDetailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content p-4" style="border-radius: 30px; border: none;">
@@ -93,7 +93,6 @@
     </footer>
 
     <!-- Scripts -->
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JS (Logika Modal & Ikon) -->

@@ -47,7 +47,7 @@ h3,
     font-weight: 700;
 }
 
-/* Fix Mobile Menu Background */
+/* Mobile Menu Background */
 @media (max-width: 991px) {
     .navbar-collapse {
         background: white;
@@ -83,7 +83,7 @@ h3,
     font-size: 1.1rem;
 }
 
-/* Category Tabs (Revised: No border, text-only style) */
+/* Category Tabs */
 .nav-pills .nav-link-filter {
     color: var(--text-charcoal);
     padding: 8px 15px;
@@ -109,7 +109,7 @@ h3,
     font-weight: 700;
     opacity: 1;
     border-bottom: 2px solid var(--accent-blue);
-    border-radius: 0; /* Removing rounded look for text-only style */
+    border-radius: 0;
 }
 
 /* Trend Cards (Home) */
